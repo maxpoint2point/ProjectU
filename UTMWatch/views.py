@@ -1,15 +1,26 @@
-from UTMWatch.models import WorkPlace, OU
+from .models import WorkPlace, OU
 from rest_framework import generics
-from .serializers import WorkplaceCreateSerializer, WorkplaceSerializer, OUSerializer
+from .serializers import (
+    WorkplaceCreateSerializer,
+    WorkplaceDetailSerializer,
+    OUDetailSerializer,
+    OUListSerializer,
+    WorkplaceListSerializer
+)
 
 
 class OUCreateView(generics.CreateAPIView):
-    serializer_class = OUSerializer
+    serializer_class = OUDetailSerializer
+    queryset = OU.objects.all()
+
+
+class OUDetailView(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = OUDetailSerializer
     queryset = OU.objects.all()
 
 
 class OUListView(generics.ListAPIView):
-    serializer_class = OUSerializer
+    serializer_class = OUListSerializer
     queryset = OU.objects.all()
 
 
@@ -19,5 +30,10 @@ class WorkPlaceCreateView(generics.CreateAPIView):
 
 
 class WorkPlaceListView(generics.ListAPIView):
-    serializer_class = WorkplaceSerializer
+    serializer_class = WorkplaceListSerializer
+    queryset = WorkPlace.objects.all()
+
+
+class WorkPlaceDetailView(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = WorkplaceDetailSerializer
     queryset = WorkPlace.objects.all()
