@@ -7,6 +7,8 @@ class OU(models.Model):
     name = models.CharField('Имя', max_length=70)
     disabled = models.BooleanField(default=False)
 
+    objects = models.Manager()
+
     def __str__(self):
         return f'{self.name} <{self.inn}>'
 

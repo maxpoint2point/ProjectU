@@ -12,6 +12,8 @@ class Producer(models.Model):
     region_code = models.PositiveIntegerField()
     address = models.CharField('Адрес', max_length=200)
 
+    objects = models.Manager()
+
     def __str__(self):
         return f'{self.short_name} <{self.reg_id}>'
 

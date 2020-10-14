@@ -7,6 +7,8 @@ class VCode(models.Model):
     vcode = models.IntegerField(unique=True)
     name = models.CharField(max_length=200, null=True)
 
+    objects = models.Manager()
+
     def __str__(self):
         return f'{self.name} <{self.vcode}>'
 
@@ -20,6 +22,8 @@ class Alcohol(models.Model):
     volume = models.FloatField('Крепость')
     v_code = models.ForeignKey(VCode, on_delete=models.CASCADE)
     producer = models.ForeignKey(Producer, on_delete=models.CASCADE)
+
+    objects = models.Manager()
 
     def __str__(self):
         return f'{self.short_name} <{self.reg_id}>'

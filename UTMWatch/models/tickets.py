@@ -13,5 +13,7 @@ class Ticket(models.Model):
     result_comment = models.CharField(max_length=100)
     workplace = models.ForeignKey(WorkPlace, on_delete=models.CASCADE)
 
+    objects = models.Manager()
+
     def __str__(self):
         return f'{self.result} {self.doc_type}'

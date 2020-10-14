@@ -31,6 +31,8 @@ class RestsList(models.Model):
     type = models.CharField('Тип остатков', max_length=6, choices=TYPE)
     status = models.CharField('Статус', max_length=10, choices=STATUS_CHOICES)
 
+    objects = models.Manager()
+
     def __str__(self):
         return self.date
 

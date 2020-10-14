@@ -38,6 +38,8 @@ class WayBillList(models.Model):
     comment = models.CharField(max_length=40, null=True)
     workplace = models.ForeignKey(WorkPlace, on_delete=models.CASCADE)
 
+    objects = models.Manager()
+
     class Meta:
         verbose_name = 'Входящая товаро-транспортная накладная'
         verbose_name_plural = 'Входяще товаро-транспортные накладные'
@@ -52,6 +54,8 @@ class WayBillData(models.Model):
     fa = models.ForeignKey(FA, on_delete=models.SET_NULL, null=True)
     fb = models.ForeignKey(FB, on_delete=models.SET_NULL, null=True)
     waybill = models.ForeignKey(WayBillList, on_delete=models.CASCADE)
+
+    objects = models.Manager()
 
 
 # class NATTNList(models.Model):
