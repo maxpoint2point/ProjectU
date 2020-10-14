@@ -6,7 +6,7 @@ from UTMWatch.serializers import OUListSerializer
 class WorkplaceListSerializer(serializers.ModelSerializer):
     class Meta:
         model = WorkPlace
-        fields = ("id", "name", "fsrar")
+        fields = ("id", "name", "fsrar", "ou")
 
 
 class WorkplaceDetailSerializer(serializers.ModelSerializer):

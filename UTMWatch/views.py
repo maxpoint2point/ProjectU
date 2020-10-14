@@ -1,5 +1,6 @@
 from .models import WorkPlace, OU
 from rest_framework import generics
+from django_filters.rest_framework import DjangoFilterBackend
 from .serializers import (
     WorkplaceCreateSerializer,
     WorkplaceDetailSerializer,
@@ -7,6 +8,7 @@ from .serializers import (
     OUListSerializer,
     WorkplaceListSerializer
 )
+from .service import WorkPlaceFilter
 
 
 class OUCreateView(generics.CreateAPIView):
@@ -32,6 +34,8 @@ class WorkPlaceCreateView(generics.CreateAPIView):
 class WorkPlaceListView(generics.ListAPIView):
     serializer_class = WorkplaceListSerializer
     queryset = WorkPlace.objects.all()
+    filter_backends = (DjangoFilterBackend,)
+    filterset_class = WorkPlaceFilter
 
 
 class WorkPlaceDetailView(generics.RetrieveUpdateDestroyAPIView):
