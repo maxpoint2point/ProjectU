@@ -1,6 +1,6 @@
 from django.db import models
 from .producers import Producer
-from .workplaces import WorkPlace
+from .workplaces import Workplace
 from .alcohols import Alcohol
 from .informs import FA, FB
 
@@ -36,7 +36,7 @@ class WayBillList(models.Model):
     ttn = models.CharField(max_length=14)
     status = models.CharField(max_length=11, choices=STATUS, default=LOADED)
     comment = models.CharField(max_length=40, null=True)
-    workplace = models.ForeignKey(WorkPlace, on_delete=models.CASCADE)
+    workplace = models.ForeignKey(Workplace, on_delete=models.CASCADE)
 
     objects = models.Manager()
 

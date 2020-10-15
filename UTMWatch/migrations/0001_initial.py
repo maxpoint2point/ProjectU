@@ -26,7 +26,7 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.CreateModel(
-            name='WorkPlace',
+            name='Workplace',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=70, verbose_name='Имя')),

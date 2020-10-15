@@ -3,7 +3,7 @@ from .ou import OU
 from UTMDriver.connector import Connector
 
 
-class WorkPlace(models.Model):
+class Workplace(models.Model):
     """Рабочие места"""
     name = models.CharField('Имя', max_length=70)
     fsrar = models.CharField('ФСРАР ИД', max_length=12, blank=True)
@@ -13,7 +13,7 @@ class WorkPlace(models.Model):
     delete_requests = models.BooleanField('Удалять обработанные документы')
     load_ttn = models.BooleanField('Загружать накладные')
     disabled = models.BooleanField('Исключить из автоматической обработки')
-    ou = models.ForeignKey(OU, on_delete=models.CASCADE)
+    ou = models.ForeignKey(OU, on_delete=models.CASCADE, related_name="workplace_ou")
 
     objects = models.Manager()
 
@@ -28,4 +28,4 @@ class WorkPlace(models.Model):
         if not self.pk and not self.fsrar:
             utm = Connector(self.utm_host, self.utm_port)
             self.fsrar = utm.FSRAR
-        super(WorkPlace, self).save(*args, **kwargs)
+        super(Workplace, self).save(*args, **kwargs)

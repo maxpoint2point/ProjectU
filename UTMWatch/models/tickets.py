@@ -1,5 +1,5 @@
 from django.db import models
-from .workplaces import WorkPlace
+from .workplaces import Workplace
 
 
 class Ticket(models.Model):
@@ -11,7 +11,7 @@ class Ticket(models.Model):
     result = models.BooleanField()
     result_date = models.DateTimeField()
     result_comment = models.CharField(max_length=100)
-    workplace = models.ForeignKey(WorkPlace, on_delete=models.CASCADE)
+    workplace = models.ForeignKey(Workplace, on_delete=models.CASCADE)
 
     objects = models.Manager()
 

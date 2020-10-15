@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'django_filters',
+    'drf_yasg',
 
     'UTMWatch',
 ]
@@ -75,6 +76,10 @@ REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': (
         'django_filters.rest_framework.DjangoFilterBackend',
     )
+}
+
+SWAGGER_SETTINGS = {
+    "DEFAULT_GENERATOR_CLASS": "rest_framework.schemas.generators.BaseSchemaGenerator",
 }
 
 WSGI_APPLICATION = 'ProjectU.wsgi.application'

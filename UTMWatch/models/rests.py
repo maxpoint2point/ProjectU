@@ -1,10 +1,11 @@
 from django.db import models
 from .alcohols import Alcohol
 from .informs import FA, FB
-from .workplaces import WorkPlace
+from .workplaces import Workplace
+from UTMDriver.connector import Connector
 
 
-class RestsList(models.Model):
+class RestHeader(models.Model):
     """Список документов с остатками"""
 
     LOADED = 'loaded'
@@ -25,40 +26,60 @@ class RestsList(models.Model):
         (SHOP, '2 регистр'),
     )
 
-    workplace = models.ForeignKey(WorkPlace, on_delete=models.CASCADE)
-    request_id = models.CharField('Идентификатор', max_length=36)
-    date = models.DateTimeField()
+    workplace = models.ForeignKey(Workplace, on_delete=models.CASCADE)
+    request_id = models.CharField('Идентификатор', max_length=36, null=True)
+    date = models.DateTimeField(null=True)
     type = models.CharField('Тип остатков', max_length=6, choices=TYPE)
-    status = models.CharField('Статус', max_length=10, choices=STATUS_CHOICES)
+    status = models.CharField('Статус', max_length=10, choices=STATUS_CHOICES, default=SEND_AC)
 
     objects = models.Manager()
 
     def __str__(self):
-        return self.date
+        return f'{self.workplace} {self.date}'
 
     class Meta:
         verbose_name = 'Документ с остатками'
         verbose_name_plural = 'Документы с остатками'
 
+    def save(self, *args, **kwargs):
+        utm = Connector(self.workplace.utm_host, self.workplace.utm_port)
+        if self.type == self.STOCK:
+            try:
+                r = utm.request_document("QueryRests")
+            except:
+                r = False
+        elif self.type == self.SHOP:
+            try:
+                r = utm.request_document("QueryRestsShop_v2")
+            except:
+                r = False
+        if r:
+            self.request_id = r.replyId
+            self.status = self.SEND_AC
+        else:
+            self.request_id = None
+            self.status = self.ERROR
+        super(RestHeader, self).save(*args, **kwargs)
 
-class RestsStock(models.Model):
+
+class StockPosition(models.Model):
     """Позиции остатков 1 рег"""
     quantity = models.PositiveIntegerField()
     fa = models.ForeignKey(FA, on_delete=models.SET_NULL, null=True)
     fb = models.ForeignKey(FB, on_delete=models.SET_NULL, null=True)
     alcohol = models.ForeignKey(Alcohol, on_delete=models.SET_NULL, null=True)
-    rest_list = models.ForeignKey(RestsList, on_delete=models.CASCADE)
+    header = models.ForeignKey(RestHeader, on_delete=models.CASCADE, related_name="restheader_stockposition")
 
     class Meta:
         verbose_name = 'Остатки 1 регистр'
         verbose_name_plural = 'Остатки 1 регистр'
 
 
-class RestsShop(models.Model):
+class ShopPosition(models.Model):
     """Позиции остатков 2 рег"""
     quantity = models.PositiveIntegerField()
     alcohol = models.ForeignKey(Alcohol, on_delete=models.SET_NULL, null=True)
-    rest_list = models.ForeignKey(RestsList, on_delete=models.CASCADE)
+    rest_list = models.ForeignKey(RestHeader, on_delete=models.CASCADE, related_name="restheader_shopposition")
 
     class Meta:
         verbose_name = 'Остатки 2 регистр'
