@@ -3,6 +3,7 @@ from .alcohols import Alcohol
 from .informs import FA, FB
 from .workplaces import Workplace
 from UTMDriver.connector import Connector
+from .queue import Queue
 
 
 class RestHeader(models.Model):
@@ -42,29 +43,35 @@ class RestHeader(models.Model):
         verbose_name_plural = 'Документы с остатками'
 
     def save(self, *args, **kwargs):
-        utm = Connector(self.workplace.utm_host, self.workplace.utm_port)
-        if self.type == self.STOCK:
-            try:
-                r = utm.request_document("QueryRests")
-            except:
-                r = False
-        elif self.type == self.SHOP:
-            try:
-                r = utm.request_document("QueryRestsShop_v2")
-            except:
-                r = False
-        if r:
-            self.request_id = r.replyId
-            self.status = self.SEND_AC
-        else:
-            self.request_id = None
-            self.status = self.ERROR
+        if not self.pk:
+            utm = Connector(self.workplace.utm_host, self.workplace.utm_port)
+            if self.type == self.STOCK:
+                try:
+                    r = utm.request_document("QueryRests")
+                except:
+                    r = False
+            elif self.type == self.SHOP:
+                try:
+                    r = utm.request_document("QueryRestsShop_v2")
+                except:
+                    r = False
+            if r:
+                self.request_id = r.replyId
+                self.status = self.SEND_AC
+                d = Queue(
+                    reply_id=r.replyId,
+                    workplace=self.workplace,
+                )
+                d.save()
+            else:
+                self.request_id = None
+                self.status = self.ERROR
         super(RestHeader, self).save(*args, **kwargs)
 
 
 class StockPosition(models.Model):
     """Позиции остатков 1 рег"""
-    quantity = models.PositiveIntegerField()
+    quantity = models.FloatField()
     fa = models.ForeignKey(FA, on_delete=models.SET_NULL, null=True)
     fb = models.ForeignKey(FB, on_delete=models.SET_NULL, null=True)
     alcohol = models.ForeignKey(Alcohol, on_delete=models.SET_NULL, null=True)

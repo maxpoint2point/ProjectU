@@ -15,4 +15,5 @@ urlpatterns = [
     path('rest/all', RestListView.as_view()),
     path('rest/<int:pk>/', RestDetailView.as_view()),
     path('rest/create/', RestCreateView.as_view()),
+    path('workplace/<int:pk>/exchange', Exchange.as_view()),
 ]

@@ -28,6 +28,25 @@ class Alcohol(models.Model):
     def __str__(self):
         return f'{self.short_name} <{self.reg_id}>'
 
+    @staticmethod
+    def get_or_create(data):
+        try:
+            alcohol = Alcohol.objects.get(reg_id=data.ProductAlcCode)
+        except Alcohol.DoesNotExist:
+            v_code = 1  # TODO: подставлять код
+            producer = 1  # TODO: подставлять производителя
+            alcohol = Alcohol(
+                reg_id=data.ProductAlcCode,
+                full_name=data.ProductFullName,
+                short_name=data.ProductFullName,
+                capacity=data.ProductCapacity,
+                volume=data.ProductAlcVolume,
+                v_code=v_code,
+                producer=producer,
+                )
+            alcohol.save()
+        return alcohol
+
     class Meta:
         verbose_name = 'Алкогольная продукция'
         verbose_name_plural = 'Алкогольная продукция'
