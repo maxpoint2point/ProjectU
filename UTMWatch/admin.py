@@ -35,3 +35,13 @@ class FA(admin.ModelAdmin):
 @admin.register(FB)
 class FB(admin.ModelAdmin):
     pass
+
+
+@admin.register(VCode)
+class VCode(admin.ModelAdmin):
+    pass
+
+
+@admin.register(Producer)
+class Producer(admin.ModelAdmin):
+    pass

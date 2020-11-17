@@ -3,7 +3,7 @@ from UTMWatch.models import Workplace
 from UTMDriver.connector import Connector
 from .models import Queue
 from UTMDriver.generic.documents.rests import storeRest
-from .models import RestHeader, StockPosition, FA, FB, Alcohol
+from .models import RestHeader, StockPosition, FA, FB, Alcohol, VCode, Producer
 from django.core.exceptions import ObjectDoesNotExist
 
 
@@ -26,15 +26,33 @@ def exchange(host, port):
                 header.status = RestHeader.LOADED
                 header.save()
                 for pos in r.Position:
-                    fa = FA.get_or_create(pos.StockPositionInformARegId)
-                    fb = FB.get_or_create(pos.StockPositionInformBRegId)
-                    alcohol = Alcohol.get_or_create(pos)
                     rest = StockPosition(
                         quantity=pos.StockPositionQuantity,
-                        fa=fa,
-                        fb=fb,
+                        fa=FA.objects.get_or_create(reg_id=pos.StockPositionInformARegId)[0],
+                        fb=FB.objects.get_or_create(reg_id=pos.StockPositionInformBRegId)[0],
                         header=header,
-                        alcohol=alcohol,
+                        alcohol=Alcohol.objects.get_or_create(
+                            reg_id=pos.ProductAlcCode,
+                            defaults={
+                                'full_name': pos.ProductFullName,
+                                'short_name': pos.ProductFullName,
+                                'capacity': pos.ProductCapacity,
+                                'volume': pos.ProductAlcVolume,
+                                'v_code': VCode.objects.get_or_create(vcode=pos.ProductVCode)[0],
+                                'producer': Producer.objects.get_or_create(
+                                    reg_id=pos.ProducerClientRegId,
+                                    defaults={
+                                        'inn': pos.ProducerINN,
+                                        'kpp': pos.ProducerKPP,
+                                        'full_name': pos.ProducerFullName,
+                                        'short_name': pos.ProducerShortName,
+                                        'country': pos.addressCountry,
+                                        'region_code': pos.addressRegionCode,
+                                        'address': pos.addressDescription,
+                                    }
+                                )[0],
+                            }
+                        )[0],
                     )
                     rest.save()
                 document.status = True

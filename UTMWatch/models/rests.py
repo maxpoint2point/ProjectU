@@ -77,6 +77,9 @@ class StockPosition(models.Model):
     alcohol = models.ForeignKey(Alcohol, on_delete=models.SET_NULL, null=True)
     header = models.ForeignKey(RestHeader, on_delete=models.CASCADE, related_name="restheader_stockposition")
 
+    def __str__(self):
+        return f"{self.alcohol} | {self.quantity}"
+
     class Meta:
         verbose_name = 'Остатки 1 регистр'
         verbose_name_plural = 'Остатки 1 регистр'
