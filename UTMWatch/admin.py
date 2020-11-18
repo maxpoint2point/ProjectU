@@ -45,3 +45,8 @@ class VCode(admin.ModelAdmin):
 @admin.register(Producer)
 class Producer(admin.ModelAdmin):
     pass
+
+
+@admin.register(Alcohol)
+class Alcohol(admin.ModelAdmin):
+    pass

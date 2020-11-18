@@ -1,14 +1,22 @@
 from rest_framework import serializers
 from UTMWatch.models import RestHeader, ShopPosition, StockPosition
+from UTMWatch.serializers.informs import FADetailSerializer, FBDetailSerializer
+from UTMWatch.serializers.alcohol import AlcoholDetailSerializer
 
 
 class ShopPositionDetailSerializer(serializers.ModelSerializer):
+    alcohol = AlcoholDetailSerializer(read_only=True)
+
     class Meta:
         model = ShopPosition
         fields = "__all__"
 
 
 class StockPositionDetailSerializer(serializers.ModelSerializer):
+    fa = FADetailSerializer(read_only=True)
+    fb = FBDetailSerializer(read_only=True)
+    alcohol = AlcoholDetailSerializer(read_only=True)
+
     class Meta:
         model = StockPosition
         fields = "__all__"
@@ -17,12 +25,12 @@ class StockPositionDetailSerializer(serializers.ModelSerializer):
 class RestHeaderListSerializer(serializers.ModelSerializer):
     class Meta:
         model = RestHeader
-        fields = ("date", "type", "status")
+        fields = ("id", "date", "type", "status")
 
 
 class RestHeaderDetailSerializer(serializers.ModelSerializer):
-    stock = StockPositionDetailSerializer(many=True, read_only=True)
-    shop = ShopPositionDetailSerializer(many=True, read_only=True)
+    restheader_stockposition = StockPositionDetailSerializer(many=True, read_only=True)
+    restheader_shopposition = ShopPositionDetailSerializer(many=True, read_only=True)
 
     class Meta:
         model = RestHeader

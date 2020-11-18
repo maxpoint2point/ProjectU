@@ -9,5 +9,7 @@ class Queue(models.Model):
     status = models.BooleanField("Обработан", default=False)
     timestamp = models.DateField(auto_now=True)
 
+    objects = models.Manager()
+
     def __str__(self):
         return f'{self.reply_id} <{self.status}>'

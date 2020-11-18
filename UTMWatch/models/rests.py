@@ -72,8 +72,8 @@ class RestHeader(models.Model):
 class StockPosition(models.Model):
     """Позиции остатков 1 рег"""
     quantity = models.FloatField()
-    fa = models.ForeignKey(FA, on_delete=models.SET_NULL, null=True)
-    fb = models.ForeignKey(FB, on_delete=models.SET_NULL, null=True)
+    fa = models.ForeignKey(FA, on_delete=models.SET_NULL, null=True, related_name="fa")
+    fb = models.ForeignKey(FB, on_delete=models.SET_NULL, null=True, related_name='fb')
     alcohol = models.ForeignKey(Alcohol, on_delete=models.SET_NULL, null=True)
     header = models.ForeignKey(RestHeader, on_delete=models.CASCADE, related_name="restheader_stockposition")
 
@@ -87,9 +87,9 @@ class StockPosition(models.Model):
 
 class ShopPosition(models.Model):
     """Позиции остатков 2 рег"""
-    quantity = models.PositiveIntegerField()
+    quantity = models.FloatField()
     alcohol = models.ForeignKey(Alcohol, on_delete=models.SET_NULL, null=True)
-    rest_list = models.ForeignKey(RestHeader, on_delete=models.CASCADE, related_name="restheader_shopposition")
+    header = models.ForeignKey(RestHeader, on_delete=models.CASCADE, related_name="restheader_shopposition")
 
     class Meta:
         verbose_name = 'Остатки 2 регистр'
