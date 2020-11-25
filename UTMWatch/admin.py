@@ -14,7 +14,7 @@ class Workplace(admin.ModelAdmin):
 
 @admin.register(RestHeader)
 class RestHeader(admin.ModelAdmin):
-    pass
+    readonly_fields = ['request_id', 'date', 'status']
 
 
 @admin.register(Queue)
@@ -23,6 +23,11 @@ class Queue(admin.ModelAdmin):
 
 
 @admin.register(StockPosition)
+class StockPosition(admin.ModelAdmin):
+    pass
+
+
+@admin.register(ShopPosition)
 class StockPosition(admin.ModelAdmin):
     pass
 
@@ -49,4 +54,19 @@ class Producer(admin.ModelAdmin):
 
 @admin.register(Alcohol)
 class Alcohol(admin.ModelAdmin):
+    pass
+
+
+@admin.register(Ticket)
+class Ticket(admin.ModelAdmin):
+    pass
+
+
+@admin.register(WayBillList)
+class WayBillList(admin.ModelAdmin):
+    pass
+
+
+@admin.register(WayBillData)
+class WayBillData(admin.ModelAdmin):
     pass

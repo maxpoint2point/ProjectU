@@ -13,3 +13,7 @@ class Queue(models.Model):
 
     def __str__(self):
         return f'{self.reply_id} <{self.status}>'
+
+    class Meta:
+        verbose_name = 'Исходящий запрос'
+        verbose_name_plural = 'Исходящие запросы'

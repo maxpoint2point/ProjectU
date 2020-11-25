@@ -12,6 +12,10 @@ class VCode(models.Model):
     def __str__(self):
         return f'{self.name} <{self.vcode}>'
 
+    class Meta:
+        verbose_name = 'Вид продукции'
+        verbose_name_plural = 'Виды продукции'
+
 
 class Alcohol(models.Model):
     """Алкогольная продукция"""

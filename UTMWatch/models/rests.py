@@ -28,15 +28,15 @@ class RestHeader(models.Model):
     )
 
     workplace = models.ForeignKey(Workplace, on_delete=models.CASCADE)
-    request_id = models.CharField('Идентификатор', max_length=36, null=True)
-    date = models.DateTimeField(null=True)
+    request_id = models.CharField('Идентификатор', max_length=36, null=True, blank=True)
+    date = models.DateTimeField(null=True, blank=True)
     type = models.CharField('Тип остатков', max_length=6, choices=TYPE)
     status = models.CharField('Статус', max_length=10, choices=STATUS_CHOICES, default=SEND_AC)
 
     objects = models.Manager()
 
     def __str__(self):
-        return f'{self.workplace} {self.date}'
+        return f'{self.workplace} {self.date} ({self.type} [{self.status}])'
 
     class Meta:
         verbose_name = 'Документ с остатками'
@@ -90,6 +90,9 @@ class ShopPosition(models.Model):
     quantity = models.FloatField()
     alcohol = models.ForeignKey(Alcohol, on_delete=models.SET_NULL, null=True)
     header = models.ForeignKey(RestHeader, on_delete=models.CASCADE, related_name="restheader_shopposition")
+
+    def __str__(self):
+        return f"{self.alcohol} | {self.quantity}"
 
     class Meta:
         verbose_name = 'Остатки 2 регистр'

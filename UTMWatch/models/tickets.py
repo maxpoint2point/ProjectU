@@ -17,3 +17,7 @@ class Ticket(models.Model):
 
     def __str__(self):
         return f'{self.result} {self.doc_type}'
+
+    class Meta:
+        verbose_name = 'Тикет'
+        verbose_name_plural = 'Тикеты'

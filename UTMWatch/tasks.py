@@ -4,4 +4,4 @@ from .service import exchange as ex
 
 @app.task
 def exchange(host, port):
-    ex(host, port)
+    ex.exchange(host, port)

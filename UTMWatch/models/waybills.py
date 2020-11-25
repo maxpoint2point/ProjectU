@@ -41,8 +41,8 @@ class WayBillList(models.Model):
     objects = models.Manager()
 
     class Meta:
-        verbose_name = 'Входящая товаро-транспортная накладная'
-        verbose_name_plural = 'Входяще товаро-транспортные накладные'
+        verbose_name = 'Входящая накладная'
+        verbose_name_plural = 'Входящие накладные'
 
 
 class WayBillData(models.Model):
@@ -56,6 +56,10 @@ class WayBillData(models.Model):
     waybill = models.ForeignKey(WayBillList, on_delete=models.CASCADE)
 
     objects = models.Manager()
+
+    class Meta:
+        verbose_name = 'Позиция накладной'
+        verbose_name_plural = 'Позиции накладной'
 
 
 # class NATTNList(models.Model):
