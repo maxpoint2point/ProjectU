@@ -27,10 +27,10 @@ class RestHeader(models.Model):
         (SHOP, '2 регистр'),
     )
 
-    workplace = models.ForeignKey(Workplace, on_delete=models.CASCADE)
+    workplace = models.ForeignKey(Workplace, on_delete=models.CASCADE, verbose_name='Рабочее место')
     request_id = models.CharField('Идентификатор', max_length=36, null=True, blank=True)
-    date = models.DateTimeField(null=True, blank=True)
-    send_date = models.DateTimeField(auto_created=True)
+    date = models.DateTimeField('Дата из ЕГАИС', null=True, blank=True)
+    send_date = models.DateTimeField('Дата отправки', auto_now_add=True)
     type = models.CharField('Тип остатков', max_length=6, choices=TYPE)
     status = models.CharField('Статус', max_length=10, choices=STATUS_CHOICES, default=SEND_AC)
     message = models.CharField('Сообщение от УТМ', max_length=300, null=True, blank=True, default=None)
@@ -73,11 +73,11 @@ class RestHeader(models.Model):
 
 class StockPosition(models.Model):
     """Позиции остатков 1 рег"""
-    quantity = models.FloatField()
-    fa = models.ForeignKey(FA, on_delete=models.SET_NULL, null=True, related_name="fa")
-    fb = models.ForeignKey(FB, on_delete=models.SET_NULL, null=True, related_name='fb')
-    alcohol = models.ForeignKey(Alcohol, on_delete=models.SET_NULL, null=True)
-    header = models.ForeignKey(RestHeader, on_delete=models.CASCADE, related_name="restheader_stockposition")
+    quantity = models.FloatField('Количество')
+    fa = models.ForeignKey(FA, on_delete=models.SET_NULL, null=True, related_name="fa", verbose_name='Справка А')
+    fb = models.ForeignKey(FB, on_delete=models.SET_NULL, null=True, related_name='fb', verbose_name='Справка Б')
+    alcohol = models.ForeignKey(Alcohol, on_delete=models.SET_NULL, null=True, verbose_name='Алкогольная продукция')
+    header = models.ForeignKey(RestHeader, on_delete=models.CASCADE, related_name="restheader_stockposition", verbose_name='Документ')
 
     def __str__(self):
         return f"{self.alcohol} | {self.quantity}"
@@ -89,9 +89,9 @@ class StockPosition(models.Model):
 
 class ShopPosition(models.Model):
     """Позиции остатков 2 рег"""
-    quantity = models.FloatField()
-    alcohol = models.ForeignKey(Alcohol, on_delete=models.SET_NULL, null=True)
-    header = models.ForeignKey(RestHeader, on_delete=models.CASCADE, related_name="restheader_shopposition")
+    quantity = models.FloatField('Количество')
+    alcohol = models.ForeignKey(Alcohol, on_delete=models.SET_NULL, null=True, verbose_name='Алкогольная продукция')
+    header = models.ForeignKey(RestHeader, on_delete=models.CASCADE, related_name="restheader_shopposition", verbose_name='Запрос')
 
     def __str__(self):
         return f"{self.alcohol} | {self.quantity}"

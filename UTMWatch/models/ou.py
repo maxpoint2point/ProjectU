@@ -5,7 +5,7 @@ class OU(models.Model):
     """Организации"""
     inn = models.CharField('ИНН', max_length=12)
     name = models.CharField('Имя', max_length=70)
-    disabled = models.BooleanField(default=False)
+    disabled = models.BooleanField('Исключить из обработки', default=False)
 
     objects = models.Manager()
 

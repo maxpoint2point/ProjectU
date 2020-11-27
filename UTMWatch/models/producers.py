@@ -8,8 +8,8 @@ class Producer(models.Model):
     kpp = models.CharField('КПП', max_length=12)
     full_name = models.CharField('Полное наименование', max_length=200)
     short_name = models.CharField('Сокращенное наименование', max_length=100)
-    country = models.PositiveIntegerField()
-    region_code = models.PositiveIntegerField()
+    country = models.PositiveIntegerField('Страна')
+    region_code = models.PositiveIntegerField('Регион')
     address = models.CharField('Адрес', max_length=200)
 
     objects = models.Manager()

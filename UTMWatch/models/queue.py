@@ -5,9 +5,9 @@ from .workplaces import Workplace
 class Queue(models.Model):
     """Исходящие запросы в УТМ"""
     reply_id = models.CharField("Идентификатор", max_length=36)
-    workplace = models.ForeignKey(Workplace, on_delete=models.CASCADE)
+    workplace = models.ForeignKey(Workplace, on_delete=models.CASCADE, verbose_name='Рабочее место')
     status = models.BooleanField("Обработан", default=False)
-    timestamp = models.DateField(auto_now=True)
+    timestamp = models.DateField('Метка времени', auto_now=True)
 
     objects = models.Manager()
 

@@ -1,5 +1,4 @@
 from UTMDriver.connector import Connector
-from UTMWatch.models import Queue
 from UTMDriver.generic.documents.rests import storeRest, shopRest
 from UTMDriver.generic.documents.tickets import UTMTickets, EGAISTickets
 from UTMWatch.models import (
@@ -11,6 +10,8 @@ from UTMWatch.models import (
     Alcohol,
     VCode,
     Producer,
+    Queue,
+    Workplace,
 )
 import logging
 
@@ -95,10 +96,11 @@ def shop_rests(utm_doc_instance, queue):
     queue.save()
 
 
-def main_exchange(host, port):
+def main_exchange(pk):
     # logger.debug('Начата загрузка документов из УТМ')
-    utm = Connector(host, port)
-    for queue in Queue.objects.filter(status=False):
+    workplace = Workplace.objects.get(pk=pk)
+    utm = Connector(workplace.utm_host, workplace.utm_port)
+    for queue in Queue.objects.filter(status=False, workplace=workplace, workplace__disabled=False):
         for utm_doc_instance in utm.getByReplyId(queue.reply_id):
             if type(utm_doc_instance) == storeRest.StoreRest:
                 store_rests(utm_doc_instance, queue)

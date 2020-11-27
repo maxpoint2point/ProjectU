@@ -13,7 +13,7 @@ class Workplace(models.Model):
     delete_requests = models.BooleanField('Удалять обработанные документы')
     load_ttn = models.BooleanField('Загружать накладные')
     disabled = models.BooleanField('Исключить из автоматической обработки')
-    ou = models.ForeignKey(OU, on_delete=models.CASCADE, related_name="workplace_ou")
+    ou = models.ForeignKey(OU, on_delete=models.CASCADE, related_name="workplace_ou", verbose_name='Организация')
 
     objects = models.Manager()
 

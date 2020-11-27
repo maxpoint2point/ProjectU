@@ -32,6 +32,6 @@ class WorkPlaceDetailView(generics.RetrieveUpdateDestroyAPIView):
 class Exchange(APIView):
     """Запуск обмена с УТМ"""
     def get(self, request, pk):
-        workplace = Workplace.objects.get(pk=pk)
-        exchange.delay(workplace.utm_host, workplace.utm_port)
+        # workplace = Workplace.objects.get(pk=pk)
+        exchange.delay(pk)
         return Response()

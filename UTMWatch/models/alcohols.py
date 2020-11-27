@@ -4,8 +4,8 @@ from .producers import Producer
 
 class VCode(models.Model):
     """Виды алкогольной продукции"""
-    vcode = models.IntegerField(unique=True)
-    name = models.CharField(max_length=200, null=True, default=None, blank=True)
+    vcode = models.IntegerField('Код', unique=True)
+    name = models.CharField('Название', max_length=200, null=True, default=None, blank=True)
 
     objects = models.Manager()
 
@@ -24,8 +24,8 @@ class Alcohol(models.Model):
     reg_id = models.CharField('Алкокод', max_length=200, unique=True)
     capacity = models.FloatField('Объем', null=True)
     volume = models.FloatField('Крепость')
-    v_code = models.ForeignKey(VCode, on_delete=models.CASCADE)
-    producer = models.ForeignKey(Producer, on_delete=models.CASCADE)
+    v_code = models.ForeignKey(VCode, on_delete=models.CASCADE, verbose_name='Вид алкогольной продукции')
+    producer = models.ForeignKey(Producer, on_delete=models.CASCADE, verbose_name='Производитель')
 
     objects = models.Manager()
 

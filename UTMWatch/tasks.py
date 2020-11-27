@@ -3,5 +3,5 @@ from .service import exchange as ex
 
 
 @app.task
-def exchange(host, port):
-    ex.main_exchange(host, port)
+def exchange(workplace):
+    ex.main_exchange(workplace)

@@ -3,7 +3,7 @@ from django.db import models
 
 class FA(models.Model):
     """Справки по форме А"""
-    reg_id = models.CharField(max_length=18, unique=True)
+    reg_id = models.CharField('Номер', max_length=18, unique=True)
 
     objects = models.Manager()
 
@@ -17,7 +17,7 @@ class FA(models.Model):
 
 class FB(models.Model):
     """Справки по форме B"""
-    reg_id = models.CharField(max_length=18, unique=True)
+    reg_id = models.CharField('Номер', max_length=18, unique=True)
 
     objects = models.Manager()
 
