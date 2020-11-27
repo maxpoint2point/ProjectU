@@ -30,8 +30,10 @@ class RestHeader(models.Model):
     workplace = models.ForeignKey(Workplace, on_delete=models.CASCADE)
     request_id = models.CharField('Идентификатор', max_length=36, null=True, blank=True)
     date = models.DateTimeField(null=True, blank=True)
+    send_date = models.DateTimeField(auto_created=True)
     type = models.CharField('Тип остатков', max_length=6, choices=TYPE)
     status = models.CharField('Статус', max_length=10, choices=STATUS_CHOICES, default=SEND_AC)
+    message = models.CharField('Сообщение от УТМ', max_length=300, null=True, blank=True, default=None)
 
     objects = models.Manager()
 
@@ -48,12 +50,12 @@ class RestHeader(models.Model):
             if self.type == self.STOCK:
                 try:
                     r = utm.request_document("QueryRests")
-                except:
+                except Exception:
                     r = False
             elif self.type == self.SHOP:
                 try:
                     r = utm.request_document("QueryRestsShop_v2")
-                except:
+                except Exception:
                     r = False
             if r:
                 self.request_id = r.replyId

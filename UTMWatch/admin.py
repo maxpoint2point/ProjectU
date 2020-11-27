@@ -14,7 +14,7 @@ class Workplace(admin.ModelAdmin):
 
 @admin.register(RestHeader)
 class RestHeader(admin.ModelAdmin):
-    readonly_fields = ['request_id', 'date', 'status']
+    readonly_fields = ['request_id', 'date', 'status', 'send_date', 'message']
 
 
 @admin.register(Queue)

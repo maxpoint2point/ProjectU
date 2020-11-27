@@ -7,7 +7,7 @@ class Workplace(models.Model):
     """Рабочие места"""
     name = models.CharField('Имя', max_length=70)
     fsrar = models.CharField('ФСРАР ИД', max_length=12, blank=True)
-    kpp = models.CharField('КПП', max_length=12, null=True, default=None)
+    kpp = models.CharField('КПП', max_length=12, null=True, default=None, blank=True)
     utm_host = models.CharField('Адрес УТМ', max_length=100)
     utm_port = models.PositiveIntegerField('Порт УТМ', )
     delete_requests = models.BooleanField('Удалять обработанные документы')
