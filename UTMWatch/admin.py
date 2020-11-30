@@ -12,6 +12,7 @@ class Workplace(admin.ModelAdmin):
     list_display = ('name', 'fsrar', 'delete_requests', 'load_ttn', 'disabled', 'get_ou')
     list_display_links = ('name', 'fsrar',)
     readonly_fields = ('fsrar',)
+    list_editable = ('delete_requests', 'load_ttn', 'disabled',)
 
     def get_ou(self, obj):
         return obj.ou.name
@@ -23,7 +24,7 @@ class Workplace(admin.ModelAdmin):
 class RestHeader(admin.ModelAdmin):
     list_display = ('request_id', 'type', 'send_date', 'date', 'status', 'get_workplace')
     readonly_fields = ['request_id', 'type', 'date', 'status', 'send_date', 'message', 'workplace']
-    list_filter = ('type', 'status',)
+    list_filter = ('type', 'status', 'workplace')
 
     def get_workplace(self, obj):
         return obj.workplace.name
@@ -109,6 +110,7 @@ class Alcohol(admin.ModelAdmin):
     list_display = ('reg_id', 'short_name', 'get_vcode', 'get_producer')
     list_display_links = list_display
     readonly_fields = ('reg_id', 'full_name', 'short_name', 'capacity', 'volume', 'v_code', 'producer',)
+    search_fields = ('reg_id', 'short_name', 'full_name', 'producer__full_name', 'producer__short_name')
 
     def get_producer(self, obj):
         return obj.producer.short_name
