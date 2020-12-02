@@ -64,9 +64,9 @@ INSTALLED_APPS = [
     'django_filters',
     'drf_yasg',
 
-    'UTMWatch',
-    # 'channels',
-    # 'socket_test',
+    'API',
+    'channels',
+    'Client',
 ]
 
 MIDDLEWARE = [
@@ -179,7 +179,7 @@ CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
-            'host': [('127.0.0.1', 6379)],
+            'hosts': [('127.0.0.1', 6379)],
         },
     },
 }

@@ -20,7 +20,7 @@ from .yasg import urlpatterns as doc_urls
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
-    path('api/v1/utmwatch/', include('UTMWatch.urls')),
+    path('api/v1/utmwatch/', include('API.urls')),
 ]
 
 # urlpatterns += doc_urls
