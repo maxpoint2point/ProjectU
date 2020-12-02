@@ -3,7 +3,7 @@ from channels.generic.websocket import WebsocketConsumer
 import json
 
 
-class ChatConsumer(WebsocketConsumer):
+class UTMConsumer(WebsocketConsumer):
     def connect(self):
         self.client = self.scope['url_route']['kwargs']['client']
         self.client_group_name = 'chat_%s' % self.client
@@ -28,7 +28,7 @@ class ChatConsumer(WebsocketConsumer):
                 self.client_group_name,
                 {
                     'type': 'processing_response',
-                    'payload': text_data_json['payload'],
+                    'data': text_data_json,
                 }
             )
         if text_data_json['type'] == 'Request':
@@ -36,7 +36,7 @@ class ChatConsumer(WebsocketConsumer):
                 self.client_group_name,
                 {
                     'type': 'processing_request',
-                    'payload': text_data_json['payload'],
+                    'data': text_data_json,
                 }
             )
 
@@ -45,15 +45,5 @@ class ChatConsumer(WebsocketConsumer):
 
     def processing_request(self, event):
         print(event)
-
-
-
-
-
-        # self.send(text_data=json.dumps({
-        # #     'event': "Send",
-        # #     'message': message,
-        # #     'username': username
-        # # })
-        #     print(event)
-        # })
+        if event['data']['payload']['operation'] == 'query_tasks':
+            self.send(text_data=json.dumps({'tasks': "tasks",}))

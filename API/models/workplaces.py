@@ -25,7 +25,8 @@ class Workplace(models.Model):
         verbose_name_plural = 'Рабочие места'
 
     def save(self, *args, **kwargs):
-        if not self.pk and not self.fsrar:
-            utm = Connector(self.utm_host, self.utm_port)
-            self.fsrar = utm.FSRAR
+        # if not self.pk and not self.fsrar:
+        #     utm = Connector(self.utm_host, self.utm_port)
+        #     self.fsrar = utm.FSRAR
+        # TODO: Переделать
         super(Workplace, self).save(*args, **kwargs)

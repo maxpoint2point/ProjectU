@@ -23,7 +23,7 @@ class Workplace(admin.ModelAdmin):
 @admin.register(RestHeader)
 class RestHeader(admin.ModelAdmin):
     list_display = ('request_id', 'type', 'send_date', 'date', 'status', 'get_workplace')
-    readonly_fields = ['request_id', 'type', 'date', 'status', 'send_date', 'message', 'workplace']
+    readonly_fields = ['request_id', 'date', 'status', 'send_date', 'message']
     list_filter = ('type', 'status', 'workplace')
 
     def get_workplace(self, obj):
