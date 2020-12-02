@@ -64,9 +64,9 @@ INSTALLED_APPS = [
     'django_filters',
     'drf_yasg',
 
-    'UTMWatch',
+    'API',
     'channels',
-    'socket_test',
+    'Client',
 ]
 
 MIDDLEWARE = [
