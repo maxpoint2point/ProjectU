@@ -33,7 +33,7 @@ class RestHeader(models.Model):
     date = models.DateTimeField('Дата из ЕГАИС', null=True, blank=True)
     send_date = models.DateTimeField('Дата отправки', null=True, blank=True)
     type = models.CharField('Тип остатков', max_length=6, choices=TYPE)
-    status = models.CharField('Статус', max_length=10, choices=STATUS_CHOICES, default=SEND_TO)
+    status = models.CharField('Статус', max_length=10, choices=STATUS_CHOICES, default=SEND_AC)
     message = models.CharField('Сообщение от УТМ', max_length=300, null=True, blank=True, default=None)
 
     objects = models.Manager()
@@ -46,31 +46,29 @@ class RestHeader(models.Model):
         verbose_name_plural = 'Документы с остатками'
 
     def save(self, *args, **kwargs):
-        # if not self.pk:
-        #     utm = Connector(self.workplace.utm_host, self.workplace.utm_port)
-        #     if self.type == self.STOCK:
-        #         try:
-        #             r = utm.request_document("QueryRests")
-        #         except Exception:
-        #             r = False
-        #     elif self.type == self.SHOP:
-        #         try:
-        #             r = utm.request_document("QueryRestsShop_v2")
-        #         except Exception:
-        #             r = False
-        #     if r:
-        #         self.request_id = r.replyId
-        #         self.status = self.SEND_AC
-        #         d = Queue(
-        #             reply_id=r.replyId,
-        #             workplace=self.workplace,
-        #         )
-        #         d.save()
-        #     else:
-        #         self.request_id = None
-        #         self.status = self.ERROR
-
-        # TODO: Переделать
+        if not self.pk:
+            utm = Connector(self.workplace.utm_host, self.workplace.utm_port)
+            if self.type == self.STOCK:
+                try:
+                    r = utm.request_document("QueryRests")
+                except Exception:
+                    r = False
+            elif self.type == self.SHOP:
+                try:
+                    r = utm.request_document("QueryRestsShop_v2")
+                except Exception:
+                    r = False
+            if r:
+                self.request_id = r.replyId
+                self.status = self.SEND_AC
+                d = Queue(
+                    reply_id=r.replyId,
+                    workplace=self.workplace,
+                )
+                d.save()
+            else:
+                self.request_id = None
+                self.status = self.ERROR
         super(RestHeader, self).save(*args, **kwargs)
 
 

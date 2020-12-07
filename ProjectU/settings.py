@@ -65,8 +65,8 @@ INSTALLED_APPS = [
     'drf_yasg',
 
     'API',
-    'channels',
-    'Client',
+    # 'channels',
+    # 'Client',
 ]
 
 MIDDLEWARE = [

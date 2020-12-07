@@ -56,6 +56,8 @@ def store_rests(utm_doc_instance, queue):
         rest.save()
     queue.status = True
     queue.save()
+    if queue.workplace.delete_requests:
+        utm_doc_instance.delete()
     return True
 
 
@@ -94,6 +96,9 @@ def shop_rests(utm_doc_instance, queue):
         rest.save()
     queue.status = True
     queue.save()
+    if queue.workplace.delete_requests:
+        utm_doc_instance.delete()
+    return True
 
 
 def main_exchange(pk):
@@ -117,6 +122,8 @@ def main_exchange(pk):
                         header.save()
                         queue.status = True
                         queue.save()
+                        if queue.workplace.delete_requests:
+                            utm_doc_instance.delete()
             # if type(utm_doc_instance) == EGAISTickets.EGAISTicket:
             #     pass
     # logger.debug('Загрузка завершена')
