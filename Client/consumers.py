@@ -46,4 +46,4 @@ class UTMConsumer(WebsocketConsumer):
     def processing_request(self, event):
         print(event)
         if event['data']['payload']['operation'] == 'query_tasks':
-            self.send(text_data=json.dumps({'tasks': "tasks",}))
+            self.send(text_data=json.dumps({'tasks': "tasks"}))
