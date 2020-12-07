@@ -7,7 +7,7 @@ class Queue(models.Model):
     reply_id = models.CharField("Идентификатор", max_length=36)
     workplace = models.ForeignKey(Workplace, on_delete=models.CASCADE, verbose_name='Рабочее место')
     status = models.BooleanField("Обработан", default=False)
-    timestamp = models.DateField('Метка времени', auto_now=True)
+    timestamp = models.DateTimeField('Метка времени', auto_now=True)
 
     objects = models.Manager()
 

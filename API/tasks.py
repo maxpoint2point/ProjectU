@@ -7,3 +7,10 @@ from .service import exchange as ex
 def exchange(pk):
     workplace = Workplace.objects.get(pk=pk)
     ex.main_exchange(workplace)
+
+
+@app.task
+def all_exchange():
+    workplaces = Workplace.objects.filter(disabled=False)
+    for workplace in workplaces:
+        ex.main_exchange(workplace)

@@ -65,6 +65,7 @@ INSTALLED_APPS = [
     'drf_yasg',
 
     'API',
+    'django_celery_beat'
     # 'channels',
     # 'Client',
 ]

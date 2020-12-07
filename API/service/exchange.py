@@ -1,6 +1,6 @@
 from UTMDriver.connector import Connector
 from UTMDriver.generic.documents.rests import storeRest, shopRest
-from UTMDriver.generic.documents.tickets import UTMTickets, EGAISTickets
+from UTMDriver.generic.documents.tickets import UTMTickets
 from API.models import (
     RestHeader,
     StockPosition,
@@ -11,12 +11,7 @@ from API.models import (
     VCode,
     Producer,
     Queue,
-    Workplace,
 )
-import logging
-
-
-# logger = logging.getLogger(__name__)
 
 
 def store_rests(utm_doc_instance, queue):
@@ -102,7 +97,6 @@ def shop_rests(utm_doc_instance, queue):
 
 
 def main_exchange(workplace):
-    # logger.debug('Начата загрузка документов из УТМ')
     utm = Connector(workplace.utm_host, workplace.utm_port)
     for queue in Queue.objects.filter(status=False, workplace=workplace, workplace__disabled=False):
         for utm_doc_instance in utm.getByReplyId(queue.reply_id):
@@ -123,6 +117,3 @@ def main_exchange(workplace):
                         queue.save()
                         if queue.workplace.delete_requests:
                             utm_doc_instance.delete()
-            # if type(utm_doc_instance) == EGAISTickets.EGAISTicket:
-            #     pass
-    # logger.debug('Загрузка завершена')

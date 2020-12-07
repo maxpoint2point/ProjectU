@@ -31,7 +31,7 @@ class RestHeader(models.Model):
     workplace = models.ForeignKey(Workplace, on_delete=models.CASCADE, verbose_name='Рабочее место')
     request_id = models.CharField('Идентификатор', max_length=36, null=True, blank=True)
     date = models.DateTimeField('Дата из ЕГАИС', null=True, blank=True)
-    send_date = models.DateTimeField('Дата отправки', null=True, blank=True)
+    send_date = models.DateTimeField('Дата отправки', null=True, blank=True, auto_now_add=True)
     type = models.CharField('Тип остатков', max_length=6, choices=TYPE)
     status = models.CharField('Статус', max_length=10, choices=STATUS_CHOICES, default=SEND_AC)
     message = models.CharField('Сообщение от УТМ', max_length=300, null=True, blank=True, default=None)
