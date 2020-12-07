@@ -101,9 +101,8 @@ def shop_rests(utm_doc_instance, queue):
     return True
 
 
-def main_exchange(pk):
+def main_exchange(workplace):
     # logger.debug('Начата загрузка документов из УТМ')
-    workplace = Workplace.objects.get(pk=pk)
     utm = Connector(workplace.utm_host, workplace.utm_port)
     for queue in Queue.objects.filter(status=False, workplace=workplace, workplace__disabled=False):
         for utm_doc_instance in utm.getByReplyId(queue.reply_id):
