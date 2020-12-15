@@ -1,6 +1,12 @@
+import json
+
 from django.db import models
+from django_celery_beat.utils import now
+
 from .ou import OU
 from UTMDriver.connector import Connector
+from django_celery_beat.models import PeriodicTask, PeriodicTasks
+from django.db.models import signals
 
 
 class Workplace(models.Model):
@@ -13,6 +19,7 @@ class Workplace(models.Model):
     delete_requests = models.BooleanField('Удалять обработанные документы')
     load_ttn = models.BooleanField('Загружать накладные')
     disabled = models.BooleanField('Исключить из автоматической обработки')
+    request_rest = models.BooleanField('Запрашивать остатки автоматически')
     ou = models.ForeignKey(OU, on_delete=models.CASCADE, related_name="workplace_ou", verbose_name='Организация')
 
     objects = models.Manager()
@@ -29,3 +36,22 @@ class Workplace(models.Model):
             utm = Connector(self.utm_host, self.utm_port)
             self.fsrar = utm.FSRAR
         super(Workplace, self).save(*args, **kwargs)
+
+
+class Tasks(PeriodicTask):
+    workplace = models.ForeignKey(Workplace, on_delete=models.CASCADE)
+
+    def save(self, *args, **kwargs):
+        if self.pk:
+            PeriodicTasks.update_changed()
+        parameters = {"workplace_id": self.workplace.id}
+        self.kwargs = json.dumps(parameters)
+        super(PeriodicTask, self).save(*args, **kwargs)
+
+    class Meta:
+        verbose_name = 'Задача по расписанию'
+        verbose_name_plural = 'Задачи по расписанию'
+
+
+signals.pre_delete.connect(PeriodicTasks.changed, sender=PeriodicTask)
+signals.pre_save.connect(PeriodicTasks.changed, sender=PeriodicTask)

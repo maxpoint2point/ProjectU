@@ -15,5 +15,13 @@ urlpatterns = [
     path('rest/all', RestListView.as_view()),
     path('rest/<int:pk>/', RestDetailView.as_view()),
     path('rest/create/', RestCreateView.as_view()),
-    path('workplace/<int:pk>/exchange', Exchange.as_view()),
+    # path('workplace/<int:pk>/exchange', Exchange.as_view()),
+    path('workplace/<int:pk>/tasks/', PeriodicTaskListView.as_view()),
+    path('task/create/', PeriodicTaskCreateView.as_view()),
+    path('task/<int:pk>/', PeriodicTaskRetrieveView.as_view()),
+
+    # path('periodic-task/create/', PeriodicTaskCreateView.as_view()),
+    # path('periodic-task/<int:pk>/', PeriodicTaskRetrieveView.as_view()),
+    # path('periodic-task/all/', PeriodicTaskListView.as_view()),
+
 ]

@@ -4,3 +4,4 @@ from API.serializers.rests import *
 from API.serializers.informs import *
 from API.serializers.alcohol import *
 from API.serializers.producers import *
+from API.serializers.tasks import *
