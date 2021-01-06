@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from django_celery_beat.models import IntervalSchedule
 from API.models import Tasks
+from .workplace import WorkplaceDetailSerializer
 
 
 class IntervalDetailSerializer(serializers.ModelSerializer):
@@ -10,6 +11,8 @@ class IntervalDetailSerializer(serializers.ModelSerializer):
 
 
 class PeriodicTaskDetailSerializer(serializers.ModelSerializer):
+    workplace = WorkplaceDetailSerializer(read_only=True)
+
     class Meta:
         model = Tasks
         fields = "__all__"

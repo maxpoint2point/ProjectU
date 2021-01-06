@@ -1,12 +1,12 @@
 import json
 
 from django.db import models
-from django_celery_beat.utils import now
-
-from .ou import OU
-from UTMDriver.connector import Connector
 from django_celery_beat.models import PeriodicTask, PeriodicTasks
 from django.db.models import signals
+
+from UTMDriver.connector import Connector
+
+from .ou import OU
 
 
 class Workplace(models.Model):
@@ -39,7 +39,7 @@ class Workplace(models.Model):
 
 
 class Tasks(PeriodicTask):
-    workplace = models.ForeignKey(Workplace, on_delete=models.CASCADE)
+    workplace = models.ForeignKey(Workplace, on_delete=models.CASCADE, verbose_name="Рабочее место")
 
     def save(self, *args, **kwargs):
         if self.pk:
