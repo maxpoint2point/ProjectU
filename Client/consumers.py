@@ -22,31 +22,18 @@ class UTMConsumer(WebsocketConsumer):
         )
 
     def receive(self, text_data):
-        # text_data_json = json.loads(text_data)
-        # if text_data_json['type'] == 'Response':
-        #     async_to_sync(self.channel_layer.group_send)(
-        #         self.client_group_name,
-        #         {
-        #             'type': 'processing_response',
-        #             'data': text_data_json,
-        #         }
-        #     )
-        # if text_data_json['type'] == 'Request':
-        #     async_to_sync(self.channel_layer.group_send)(
-        #         self.client_group_name,
-        #         {
-        #             'type': 'processing_request',
-        #             'data': text_data_json,
-        #         }
-        #     )
-        print(text_data)
-        async_to_sync(self.channel_layer.group_send)(
-                self.client_group_name,
-                {
-                    'type': 'processing_response',
-                    'data': text_data,
-                }
-            )
+        text_data_json = json.loads(text_data)
+        if text_data_json['method'] != 'response':
+            async_to_sync(self.channel_layer.group_send)(
+                    self.client_group_name,
+                    {
+                        'type': 'processing_response',
+                        'data': text_data,
+                    }
+                )
+
+        if text_data_json['method'] == 'response':
+            print(text_data_json)
 
     def processing_response(self, event):
         self.send(text_data=event["data"])
